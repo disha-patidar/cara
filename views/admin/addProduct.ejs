@@ -1,0 +1,110 @@
+<% layout("/layouts/boilerplate") %>
+
+<style>
+  body {
+    background: #f0f2f5;
+    font-family: 'Segoe UI', sans-serif;
+  }
+
+  .form-wrapper {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 40px 20px;
+  }
+
+  .form-card {
+    width: 100%;
+    max-width: 550px;
+    background: #ffffff;
+    padding: 35px 40px;
+    border-radius: 18px;
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.12);
+  }
+
+  .form-card h2 {
+    text-align: center;
+    color: #333;
+    margin-bottom: 25px;
+    font-size: 24px;
+  }
+
+  .form-card input,
+  .form-card textarea,
+  .form-card button {
+    width: 100%;
+    padding: 12px 14px;
+    margin-bottom: 18px;
+    border-radius: 10px;
+    border: 1px solid #ccc;
+    font-size: 15px;
+    transition: 0.3s all ease-in-out;
+  }
+
+  .form-card input:focus,
+  .form-card textarea:focus {
+    border-color: #4caf50;
+    box-shadow: 0 0 4px rgba(76, 175, 80, 0.4);
+    outline: none;
+  }
+
+  .form-card button {
+    background-color: #4caf50;
+    color: white;
+    border: none;
+    font-size: 16px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: 0.3s background ease-in-out;
+  }
+
+  .form-card button:hover {
+    background-color: #43a047;
+  }
+
+  .form-card input[type="file"] {
+    padding: 10px;
+    font-size: 14px;
+    border: 1px dashed #ccc;
+    background: #f9f9f9;
+  }
+</style>
+
+<div class="form-wrapper">
+  <div class="form-card">
+    <h2>➕ Add New Product</h2>
+    <form action="/admin/products/add" method="POST" enctype="multipart/form-data">
+      <input type="text" name="name" placeholder="Product Name" required>
+      <input type="number" name="price" placeholder="Price (₹)" step="0.01" required>
+      <input type="text" name="category" placeholder="Category">
+<div class="mb-4">
+  <label for="section" class="block text-sm font-medium text-gray-700 mb-1"></label>
+  <select
+    name="section"
+    id="section"
+    required
+    class="block w-full px-4 py-2 border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 text-gray-700"
+  >
+    <option value="">Select a section</option>
+    <option value="Men">Men</option>
+    <option value="Women">Women</option>
+    <option value="Children">Children</option>
+    <option value="Makeup">Makeup</option>
+  </select>
+</div>
+
+      <textarea name="description" placeholder="Description" rows="4"></textarea>
+  <label>Sizes (comma separated)</label>
+<input name="sizes" placeholder="S,M,L" />
+
+<label>Colors (comma separated)</label>
+<input name="colors" placeholder="Red,Blue" />
+
+<label>Discount (%)</label>
+<input name="discount" type="number" placeholder="10" />
+      <input type="file" name="image" accept="image/*">
+      <input type="number" name="stock" placeholder="Stock Quantity" required>
+      <button type="submit">Add Product</button>
+    </form>
+  </div>
+</div>

@@ -1,0 +1,185 @@
+<% layout("/layouts/boilerplate") %>
+
+<style>
+  .cart-container {
+    max-width: 900px;
+    margin: 40px auto;
+    padding: 30px;
+    background: #ffffff;
+    border-radius: 16px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+    font-family: 'Segoe UI', sans-serif;
+  }
+
+  .cart-title {
+    font-size: 32px;
+    font-weight: 600;
+    margin-bottom: 20px;
+  }
+
+  .cart-item {
+    display: flex;
+    align-items: center;
+    border-bottom: 1px solid #eee;
+    padding: 20px 0;
+  }
+
+  .cart-item img {
+    width: 100px;
+    height: auto;
+    border-radius: 12px;
+    margin-right: 20px;
+    object-fit: cover;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.06);
+  }
+
+  .item-details {
+    flex: 1;
+  }
+
+  .item-details h3 {
+    margin: 0 0 5px 0;
+    font-size: 20px;
+  }
+
+  .item-details p {
+    margin: 4px 0;
+    font-size: 14px;
+    color: #555;
+  }
+
+  .item-price {
+    font-size: 16px;
+    margin-top: 8px;
+  }
+
+  .item-price del {
+    color: #999;
+    margin-right: 10px;
+  }
+
+  .item-price span {
+    color: green;
+    font-weight: bold;
+  }
+
+  .remove-btn {
+    background: #dc3545;
+    color: white;
+    border: none;
+    padding: 8px 16px;
+    border-radius: 20px;
+    cursor: pointer;
+    transition: background 0.3s ease;
+  }
+
+  .remove-btn:hover {
+    background: #bd2130;
+  }
+
+  .cart-total {
+    text-align: right;
+    font-size: 20px;
+    margin-top: 30px;
+    font-weight: bold;
+  }
+
+  .checkout-btn {
+    display: block;
+    margin: 30px 0 0 auto;
+    background: #28a745;
+    color: white;
+    border: none;
+    padding: 12px 30px;
+    font-size: 16px;
+    border-radius: 30px;
+    cursor: pointer;
+    transition: background 0.3s ease;
+  }
+
+  .checkout-btn:hover {
+    background: #218838;
+  }
+
+  .empty-cart {
+    text-align: center;
+    color: #888;
+    font-size: 20px;
+    padding: 40px 0;
+  }
+</style>
+
+<div class="cart-container">
+  <div class="cart-title">🛒 Your Shopping Cart</div>
+
+  <div id="cart-items"></div>
+
+  <div class="cart-total" id="total-section"></div>
+
+  <!-- Checkout Button (Initially hidden, shown only if cart not empty) -->
+  <button class="checkout-btn" id="checkout-btn" onclick="goToCheckout()" style="display:none;">Proceed to Checkout</button>
+</div>
+
+<script>
+  const cartItems = JSON.parse(localStorage.getItem("cart")) || [];
+  const cartItemsContainer = document.getElementById("cart-items");
+  const totalSection = document.getElementById("total-section");
+  const checkoutBtn = document.getElementById("checkout-btn");
+
+  function calculateDiscountedPrice(item) {
+    const price = parseFloat(item.price) || 0;
+    const discount = parseFloat(item.discount) || 0;
+    return price - (price * discount / 100);
+  }
+
+  function renderCart() {
+    cartItemsContainer.innerHTML = "";
+
+    if (cartItems.length === 0) {
+      cartItemsContainer.innerHTML = '<div class="empty-cart">Your cart is empty.</div>';
+      totalSection.innerHTML = '';
+      checkoutBtn.style.display = 'none';
+      return;
+    }
+
+    let total = 0;
+
+    cartItems.forEach((item, index) => {
+      const discountedPrice = calculateDiscountedPrice(item);
+      total += discountedPrice;
+
+      const itemElement = document.createElement("div");
+      itemElement.className = "cart-item";
+      itemElement.innerHTML = `
+        <img src="${item.image}" alt="${item.name}">
+        <div class="item-details">
+          <h3>${item.name}</h3>
+          <p>Size: ${item.size || 'N/A'}</p>
+          <p>Color: ${item.color || 'N/A'}</p>
+          <div class="item-price">
+            ${item.discount > 0 
+              ? `<del>₹${parseFloat(item.price).toFixed(2)}</del> <span>₹${discountedPrice.toFixed(2)}</span>` 
+              : `<span>₹${parseFloat(item.price).toFixed(2)}</span>`}
+          </div>
+        </div>
+        <button class="remove-btn" onclick="removeItem(${index})">Remove</button>
+      `;
+      cartItemsContainer.appendChild(itemElement);
+    });
+
+    totalSection.innerHTML = `Total: ₹${total.toFixed(2)}`;
+    checkoutBtn.style.display = 'block';
+  }
+
+  function removeItem(index) {
+    cartItems.splice(index, 1);
+    localStorage.setItem("cart", JSON.stringify(cartItems));
+    renderCart();
+  }
+
+  function goToCheckout() {
+    window.location.href = "/checkout";
+  }
+
+  renderCart();
+</script>

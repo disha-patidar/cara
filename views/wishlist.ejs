@@ -1,0 +1,126 @@
+<% layout('/layouts/boilerplate') %>
+
+<style>
+  .wishlist-container {
+    max-width: 1100px;
+    margin: 40px auto;
+    padding: 20px 30px;
+    background: #fefefe;
+    border-radius: 12px;
+    box-shadow: 0 12px 28px rgba(0, 0, 0, 0.05);
+    font-family: 'Segoe UI', sans-serif;
+  }
+  .wishlist-container i{
+    color: rgb(240, 14, 14);
+  }
+
+  .wishlist-container h2 {
+    text-align: center;
+    margin-bottom: 30px;
+    font-size: 32px;
+    color: #333;
+  }
+
+  .wishlist-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    gap: 24px;
+  }
+
+  .wishlist-item {
+    background: #fff;
+    border-radius: 10px;
+    overflow: hidden;
+    box-shadow: 0 6px 14px rgba(0, 0, 0, 0.08);
+    transition: transform 0.2s ease;
+  }
+
+  .wishlist-item:hover {
+    transform: translateY(-6px);
+  }
+
+  .wishlist-item img {
+    width: 100%;
+    height: 220px;
+    object-fit: cover;
+    border-bottom: 1px solid #eee;
+  }
+
+  .wishlist-details {
+    padding: 15px 20px;
+  }
+
+  .wishlist-details h4 {
+    font-size: 18px;
+    margin-bottom: 8px;
+    color: #222;
+  }
+
+  .wishlist-details .price {
+    font-weight: bold;
+    color: #28a745;
+    margin-bottom: 10px;
+  }
+
+  .remove-btn {
+    padding: 8px 18px;
+    background-color: #dc3545;
+    color: white;
+    border: none;
+    border-radius: 20px;
+    cursor: pointer;
+    transition: background 0.2s ease;
+  }
+
+  .remove-btn:hover {
+    background-color: #c82333;
+  }
+
+  .empty {
+    text-align: center;
+    font-size: 22px;
+    color: #888;
+    padding: 60px 0;
+  }
+</style>
+
+<div class="wishlist-container">
+  <h2>Your Wishlist <i class="fa-solid fa-heart"></i></h2>
+  <div id="wishlist-items" class="wishlist-grid"></div>
+</div>
+
+<script>
+  function renderWishlist() {
+    const wishlist = JSON.parse(localStorage.getItem("wishlist")) || [];
+    const container = document.getElementById("wishlist-items");
+
+    if (wishlist.length === 0) {
+      container.innerHTML = '<div class="empty">Your wishlist is empty 💔</div>';
+      return;
+    }
+
+    container.innerHTML = "";
+
+    wishlist.forEach((item, index) => {
+      container.innerHTML += `
+        <div class="wishlist-item">
+          <img src="${item.image}" alt="${item.name}">
+          <div class="wishlist-details">
+            <h4>${item.name}</h4>
+            <div class="price">₹${item.price - (item.price * item.discount / 100)}</div>
+            <button class="remove-btn" onclick="removeFromWishlist(${index})">Remove</button>
+          </div>
+        </div>
+      `;
+    });
+  }
+
+  function removeFromWishlist(index) {
+    const wishlist = JSON.parse(localStorage.getItem("wishlist")) || [];
+    wishlist.splice(index, 1);
+    localStorage.setItem("wishlist", JSON.stringify(wishlist));
+    renderWishlist();
+  }
+
+  window.addEventListener("DOMContentLoaded", renderWishlist);
+</script>

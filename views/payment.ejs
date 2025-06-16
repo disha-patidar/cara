@@ -1,0 +1,41 @@
+<script src="https://checkout.razorpay.com/v1/checkout.js"></script>
+
+<button id="rzp-button">Pay Now</button>
+
+<script>
+  document.getElementById("rzp-button").onclick = async function (e) {
+    e.preventDefault();
+
+    // 1. Create order from server
+    const response = await fetch("/order/create-order", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ amount: 500 }) // ₹500
+    });
+
+    const order = await response.json();
+
+    // 2. Configure Razorpay options
+    const options = {
+      key: "YOUR_TEST_KEY_ID",
+      amount: order.amount,
+      currency: "INR",
+      name: "Your Shop Name",
+      description: "Test Transaction",
+      order_id: order.id,
+      handler: function (response) {
+        alert("Payment successful!");
+        console.log(response);
+      },
+      prefill: {
+        name: "Disha Patidar",
+        email: "test@example.com",
+        contact: "9999999999"
+      },
+      theme: { color: "#3399cc" }
+    };
+
+    const rzp = new Razorpay(options);
+    rzp.open();
+  };
+</script>

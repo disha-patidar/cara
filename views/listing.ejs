@@ -1,0 +1,263 @@
+<% layout("/layouts/boilerplate") %>
+
+<style>
+  .filter-bar {
+    max-width: 1200px;
+    margin: 20px auto;
+    padding: 0 20px;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    justify-content: space-between;
+    align-items: center;
+  }
+
+  .filter-bar input,
+  .filter-bar select {
+    padding: 8px 12px;
+    font-size: 14px;
+    border-radius: 8px;
+    border: 1px solid #ccc;
+    flex-grow: 1;
+    min-width: 180px;
+  }
+
+  .product-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+    gap: 20px;
+    padding: 30px;
+    max-width: 1200px;
+    margin: 0 auto;
+  }
+
+  .product-card {
+    background: #fff;
+    border-radius: 16px;
+    box-shadow: 0 8px 24px rgba(0,0,0,0.08);
+    overflow: hidden;
+    text-align: center;
+    padding: 20px;
+    transition: transform 0.3s ease;
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+  }
+
+  .product-card:hover {
+    transform: translateY(-5px);
+  }
+
+  .product-card img {
+    max-width: 100%;
+    height: 180px;
+    object-fit: cover;
+    border-radius: 12px;
+    margin-bottom: 15px;
+  }
+
+  .product-card h3 {
+    font-size: 18px;
+    margin-bottom: 8px;
+  }
+
+  .price-section {
+    font-size: 16px;
+    color: #333;
+    margin-bottom: 10px;
+  }
+
+  .price-section del {
+    color: #999;
+    margin-right: 10px;
+  }
+
+  .price-section .discount {
+    color: green;
+    font-weight: bold;
+  }
+
+  .icon-bar-bottom {
+    display: flex;
+    justify-content: center;
+    gap: 20px;
+    margin-top: 10px;
+  }
+
+  .icon-btn {
+    background: white;
+    border: none;
+    padding: 8px;
+    border-radius: 50%;
+    cursor: pointer;
+    transition: transform 0.2s ease;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+  }
+
+  .icon-btn:hover {
+    transform: scale(1.2);
+  }
+
+  .wishlist-icon.active {
+    color: red;
+  }
+
+  .icon-btn i {
+    font-size: 18px;
+    color: #555;
+  }
+</style>
+
+<!-- 🔍 Filters -->
+<div class="filter-bar">
+  <input type="text" id="search" placeholder="Search products...">
+  <select id="brand-filter">
+    <option value="">All Brands</option>
+    <% Array.from(new Set(products.map(p => p.brand))).forEach(brand => { %>
+      <option value="<%= brand %>"><%= brand %></option>
+    <% }) %>
+  </select>
+  <select id="category-filter">
+    <option value="">All Categories</option>
+    <% Array.from(new Set(products.map(p => p.category))).forEach(cat => { %>
+      <option value="<%= cat %>"><%= cat %></option>
+    <% }) %>
+  </select>
+  <select id="price-filter">
+    <option value="">All Prices</option>
+    <option value="0-1000">Under ₹1000</option>
+    <option value="1000-3000">₹1000–₹3000</option>
+    <option value="3000-5000">₹3000–₹5000</option>
+    <option value="5000-99999">Above ₹5000</option>
+  </select>
+
+</div>
+
+<!-- 🛍️ Product Cards -->
+<div class="product-grid" id="product-grid">
+  <% products.forEach(product => { 
+    const safeDiscount = Math.max(0, Math.min(product.discount || 0, 100));
+    const discounted = Math.max(0, product.price - (product.price * safeDiscount / 100));
+  %>
+    <div class="product-card"
+         data-name="<%= product.name.toLowerCase() %>"
+         data-brand="<%= product.brand %>"
+         data-category="<%= product.category %>"
+         data-price="<%= product.price %>">
+      <a href="/product/<%= product._id %>">
+        <img src="<%= product.images?.[0] %>" alt="<%= product.name %>">
+        <h3><%= product.name %></h3>
+        <div class="price-section">
+          <% if (safeDiscount > 0) { %>
+            <del>₹<%= product.price %></del>
+            <span class="discount">₹<%= discounted.toFixed(0) %></span>
+          <% } else { %>
+            <span>₹<%= product.price %></span>
+          <% } %>
+        </div>
+      </a>
+
+      <!-- Icon Row Bottom -->
+      <div class="icon-bar-bottom">
+        <button class="icon-btn wishlist-btn" data-id="<%= product._id %>">
+          <i class="fa-solid fa-heart"></i>
+        </button>
+        <button class="icon-btn cart-btn" data-id="<%= product._id %>">
+          <i class="fa-solid fa-cart-plus"></i>
+        </button>
+      </div>
+    </div>
+  <% }) %>
+</div>
+
+<!-- JS -->
+<script>
+  const searchInput = document.getElementById("search");
+  const brandFilter = document.getElementById("brand-filter");
+  const categoryFilter = document.getElementById("category-filter");
+  const priceFilter = document.getElementById("price-filter");
+  const cards = document.querySelectorAll(".product-card");
+
+  function filterProducts() {
+    const search = searchInput.value.toLowerCase();
+    const brand = brandFilter.value;
+    const category = categoryFilter.value;
+    const priceRange = priceFilter.value.split("-");
+
+    cards.forEach(card => {
+      const name = card.dataset.name;
+      const brandMatch = !brand || card.dataset.brand === brand;
+      const categoryMatch = !category || card.dataset.category === category;
+      const price = parseFloat(card.dataset.price);
+      const priceMatch = !priceFilter.value || (price >= priceRange[0] && price <= priceRange[1]);
+      const searchMatch = name.includes(search);
+
+      card.style.display = (brandMatch && categoryMatch && priceMatch && searchMatch) ? "block" : "none";
+    });
+  }
+
+  [searchInput, brandFilter, categoryFilter, priceFilter].forEach(el =>
+    el.addEventListener("input", filterProducts)
+  );
+
+  // Wishlist and Cart Logic
+  document.querySelectorAll(".wishlist-btn").forEach(btn => {
+    const id = btn.dataset.id;
+    const icon = btn.querySelector("i");
+    const productCard = btn.closest(".product-card");
+
+    // Load wishlist state
+    const wishlist = JSON.parse(localStorage.getItem("wishlist")) || [];
+    if (wishlist.some(item => item._id === id)) {
+      icon.classList.add("wishlist-icon", "active");
+    }
+
+    btn.addEventListener("click", () => {
+      const product = getProductData(productCard, id);
+      let wishlist = JSON.parse(localStorage.getItem("wishlist")) || [];
+
+      if (!wishlist.some(p => p._id === id)) {
+        wishlist.push(product);
+        localStorage.setItem("wishlist", JSON.stringify(wishlist));
+        icon.classList.add("wishlist-icon", "active");
+      }
+      window.location.href = "/wishlist";
+    });
+  });
+
+  document.querySelectorAll(".cart-btn").forEach(btn => {
+    const id = btn.dataset.id;
+    const productCard = btn.closest(".product-card");
+
+    btn.addEventListener("click", () => {
+      const product = getProductData(productCard, id);
+      let cart = JSON.parse(localStorage.getItem("cart")) || [];
+
+      if (!cart.some(p => p._id === id)) {
+        cart.push(product);
+        localStorage.setItem("cart", JSON.stringify(cart));
+      }
+      window.location.href = "/cart";
+    });
+  });
+
+  function getProductData(card, id) {
+    const del = card.querySelector("del");
+    const disc = card.querySelector(".discount");
+    const original = del ? parseFloat(del.innerText.replace(/[^\d.]/g, "")) : null;
+    const discounted = disc ? parseFloat(disc.innerText.replace(/[^\d.]/g, "")) : null;
+    let discount = 0;
+    if (original && discounted && original > 0) {
+      discount = Math.round(((original - discounted) / original) * 100);
+    }
+
+    return {
+      _id: id,
+      name: card.querySelector("h3").innerText,
+      price: parseFloat(card.dataset.price),
+      discount: Math.max(0, Math.min(discount, 100)),
+      image: card.querySelector("img").src
+    };
+  }
+</script>

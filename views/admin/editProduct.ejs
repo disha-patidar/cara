@@ -1,0 +1,130 @@
+<% layout("/layouts/boilerplate") %>
+
+<style>
+  body {
+    font-family: 'Segoe UI', sans-serif;
+    background-color: #f0f2f5;
+  }
+
+  .edit-wrapper {
+    display: flex;
+    justify-content: center;
+    padding: 40px 20px;
+  }
+
+  .edit-form {
+    width: 100%;
+    max-width: 600px;
+    background: white;
+    padding: 30px 40px;
+    border-radius: 16px;
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.1);
+  }
+
+  .edit-form h2 {
+    text-align: center;
+    margin-bottom: 25px;
+    color: #333;
+    font-size: 26px;
+  }
+
+  .edit-form label {
+    display: block;
+    margin-bottom: 6px;
+    font-weight: 600;
+    color: #555;
+  }
+
+  .edit-form input,
+  .edit-form textarea,
+  .edit-form select {
+    width: 100%;
+    padding: 10px 14px;
+    margin-bottom: 18px;
+    border: 1px solid #ccc;
+    border-radius: 10px;
+    font-size: 15px;
+    background-color: #f9f9f9;
+  }
+
+  .edit-form input[type="file"] {
+    padding: 10px;
+    border: 1px dashed #aaa;
+  }
+
+  .edit-form button {
+    background-color: #4caf50;
+    color: white;
+    padding: 12px;
+    border: none;
+    width: 100%;
+    border-radius: 10px;
+    font-size: 16px;
+    font-weight: 600;
+    cursor: pointer;
+  }
+
+  .edit-form button:hover {
+    background-color: #43a047;
+  }
+
+  .product-preview {
+    text-align: center;
+    margin-top: 10px;
+  }
+
+  .product-preview img {
+    width: 120px;
+    border-radius: 10px;
+    border: 1px solid #ccc;
+  }
+</style>
+
+<div class="edit-wrapper">
+  <form action="/admin/products/edit/<%= product._id %>" method="POST" enctype="multipart/form-data" class="edit-form">
+    <h2>✏️ Edit Product</h2>
+
+    <label for="name">Product Name</label>
+    <input type="text" name="name" value="<%= product.name %>" required>
+
+    <label for="price">Price (₹)</label>
+    <input type="number" name="price" value="<%= product.price %>" required>
+
+    <label for="category">Category</label>
+    <input type="text" name="category" value="<%= product.category %>">
+
+    <label for="section">Section</label>
+    <select name="section" id="section" required>
+      <option value="">Select a section</option>
+      <option value="Men" <%= product.section === "Men" ? "selected" : "" %>>Men</option>
+      <option value="Women" <%= product.section === "Women" ? "selected" : "" %>>Women</option>
+      <option value="Children" <%= product.section === "Children" ? "selected" : "" %>>Children</option>
+      <option value="Makeup" <%= product.section === "Makeup" ? "selected" : "" %>>Makeup</option>
+    </select>
+
+    <label for="description">Description</label>
+    <textarea name="description" rows="4"><%= product.description %></textarea>
+
+    <label>Sizes (comma separated)</label>
+    <input name="sizes" value="<%= product.sizes.join(',') %>" placeholder="S,M,L" />
+
+    <label>Colors (comma separated)</label>
+    <input name="colors" value="<%= product.colors.join(',') %>" placeholder="Red,Blue" />
+
+    <label>Discount (%)</label>
+    <input name="discount" type="number" value="<%= product.discount %>" placeholder="10" />
+
+    <label>Stock Quantity</label>
+    <input type="number" name="stock" value="<%= product.stock %>" required>
+
+    <label>Change Image</label>
+    <input type="file" name="image">
+
+    <div class="product-preview">
+      <p>Current Image:</p>
+      <img src="<%= product.image %>" alt="Product Image">
+    </div>
+
+    <button type="submit">Update Product</button>
+  </form>
+</div>

@@ -1,0 +1,21 @@
+<table>
+  <tr><th>User</th><th>Status</th><th>Total</th><th>Actions</th></tr>
+  <% orders.forEach(order => { %>
+    <tr>
+      <td><%= order.user.name %></td>
+      <td><%= order.status %></td>
+      <td>$<%= order.total %></td>
+      <td>
+        <a href="/admin/orders/<%= order._id %>">View</a>
+        <form method="POST" action="/admin/orders/<%= order._id %>/status">
+          <select name="status">
+            <option>Pending</option>
+            <option>Shipped</option>
+            <option>Delivered</option>
+          </select>
+          <button>Update</button>
+        </form>
+      </td>
+    </tr>
+  <% }) %>
+</table>
