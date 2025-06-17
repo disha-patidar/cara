@@ -109,4 +109,17 @@ router.get('/admin/orders', isAdmin, async (req, res) => {
   const orders = await Order.find().populate('user').sort({ createdAt: -1 });
   res.render('admin/orders', { orders });
 });
+
+router.post("/update-order-status/:id", async (req, res) => {
+  try {
+    const { status } = req.body;
+    const order = await Order.findById(req.params.id);
+    order.status = status;
+    order.trackingHistory.push({ status });
+    await order.save();
+    res.redirect("/admin/orders"); // Or send JSON
+  } catch (err) {
+    res.status(500).send("Error updating status");
+  }
+});
 module.exports = router;

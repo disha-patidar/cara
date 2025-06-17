@@ -1,0 +1,66 @@
+<% layout("/layouts/boilerplate") %>
+
+<style>
+  .update-form-container {
+    max-width: 400px;
+    margin: 50px auto;
+    background: #ffffff;
+    padding: 30px;
+    border-radius: 16px;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  }
+
+  .update-form-container h2 {
+    text-align: center;
+    margin-bottom: 25px;
+    color: #333;
+  }
+
+  .update-form-container label {
+    display: block;
+    margin-bottom: 8px;
+    font-weight: bold;
+    color: #444;
+  }
+
+  .update-form-container select {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    margin-bottom: 20px;
+    font-size: 16px;
+  }
+
+  .update-form-container button {
+    width: 100%;
+    background-color: #4CAF50;
+    color: white;
+    padding: 12px;
+    font-size: 16px;
+    border: none;
+    border-radius: 10px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+  }
+
+  .update-form-container button:hover {
+    background-color: #45a049;
+  }
+</style>
+
+<div class="update-form-container">
+  <h2>Update Order Status</h2>
+  <form action="/admin/update/<%= order._id %>" method="POST">
+    <label for="status">Order Status</label>
+    <select name="status" id="status">
+      <option value="Placed">Placed</option>
+      <option value="Processing">Processing</option>
+      <option value="Shipped">Shipped</option>
+      <option value="Out for Delivery">Out for Delivery</option>
+      <option value="Delivered">Delivered</option>
+    </select>
+    <button type="submit">Update</button>
+  </form>
+</div>

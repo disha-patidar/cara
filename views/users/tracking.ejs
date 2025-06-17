@@ -1,0 +1,79 @@
+<% layout("/layouts/boilerplate") %>
+
+<style>
+  .tracking-container {
+    max-width: 600px;
+    margin: 50px auto;
+    padding: 25px;
+    background: #fff;
+    border-radius: 16px;
+    box-shadow: 0 4px 18px rgba(0, 0, 0, 0.1);
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  }
+
+  .tracking-container h2 {
+    text-align: center;
+    color: #333;
+    margin-bottom: 30px;
+  }
+
+  .tracking ul {
+    list-style: none;
+    padding-left: 0;
+    position: relative;
+    margin: 0;
+    border-left: 4px solid #4CAF50;
+  }
+
+  .tracking li {
+    padding: 10px 20px;
+    margin-bottom: 15px;
+    background: #f0fdf4;
+    border-radius: 8px;
+    position: relative;
+    color: #1a4731;
+  }
+
+  .tracking li::before {
+    content: "";
+    position: absolute;
+    left: -11px;
+    top: 15px;
+    width: 16px;
+    height: 16px;
+    background: #4CAF50;
+    border-radius: 50%;
+    border: 3px solid #fff;
+    box-shadow: 0 0 0 2px #4CAF50;
+  }
+
+  .tracking small {
+    display: block;
+    margin-top: 5px;
+    color: #555;
+    font-size: 13px;
+  }
+
+  .current-status {
+    text-align: center;
+    margin-top: 25px;
+    font-size: 16px;
+    font-weight: 600;
+    color: #222;
+  }
+</style>
+
+<div class="tracking-container">
+  <h2>Order Tracking</h2>
+  <div class="tracking">
+    <ul>
+      <% order.trackingHistory.forEach(step => { %>
+        <li>
+          <strong><%= step.status %></strong>
+          <small><%= new Date(step.date).toLocaleString() %></small>
+        </li>
+      <% }) %>
+    </ul>
+    <p class="current-status">Current Status: <strong><%= order.status %></strong></p>
+  </div>
+</div>

@@ -21,6 +21,18 @@ const orderSchema = new mongoose.Schema({
       quantity: { type: Number, default: 1 },
     },
   ],
+    totalAmount: Number,
+  status: {
+    type: String,
+    enum: ["Placed", "Processing", "Shipped", "Out for Delivery", "Delivered"],
+    default: "Placed",
+  },
+  trackingHistory: [
+    {
+      status: String,
+      date: { type: Date, default: Date.now },
+    },
+  ],
   paymentMethod: String,
   total: String,
   status: { type: String, default: "Placed" },

@@ -14,6 +14,8 @@ const User = require("./models/user.js");
 const Order = require("./models/order.js");
 // adjust path
 const contactRoutes = require('./routes/contact');
+const updateRoute = require('./routes/update');
+const trackingRoute = require('./routes/tracking');
 const Review = require("./models/review.js");
 const userRoutes=require("./routes/user.js");
 const cartRoutes = require("./routes/cart");
@@ -95,13 +97,14 @@ app.use(productRoutes);
 app.use("/", userRoutes);
 app.use("/cart", cartRoutes);
 app.use('/products/:id/reviews', reviewRoutes);
-
+app.use('/admin/update', updateRoute);
 app.use(contactRoutes);
 app.use('/admin', adminRoutes);
 app.use('/admin', require('./routes/admin')); 
 app.use("/checkout", checkoutRoutes);
 app.use("/order", orderRoutes);
 
+app.use("/", trackingRoute); //
 app.use(newsletterRoutes);
 app.get("/products/:id", async (req, res) => {
   const product = await Product.findById(req.params.id);
@@ -144,6 +147,8 @@ res.render("blog");
 app.get("/contact",(req,res)=>{
 res.render("contact");
 });
+
+
 app.use((req, res, next) => {
   res.locals.currUser = req.user;
   next();
