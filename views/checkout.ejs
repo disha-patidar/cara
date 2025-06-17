@@ -109,11 +109,8 @@
        <label for="zip-code">Zip Code</label>
       <input type="text" id="zip" name="zip" placeholder="ZIP Code" required>
   </div>
-
-<div class="checkout-summary">
-  <h3>Total Payable: ₹ <span id="total-amount">0</span></h3>
-  <input type="hidden" name="amount" id="amount" value="0" />
-</div>
+<p>Total Payable: <span id="total-amount">₹0.00</span></p>
+<input type="hidden" id="amount" name="amount" />
     <button type="submit" class="checkout-btn">Pay with Razorpay</button>
   </form>
 </div>
@@ -126,11 +123,18 @@ const cart = JSON.parse(localStorage.getItem("cart")) || [];
 // 🟡 Debug Print
 console.log("Cart from localStorage:", cart);
 
-const total = cart.reduce((sum, item) => {
-  const price = parseFloat(item.price || 0); // If no price, use 0
-  const qty = parseInt(item.quantity || 0);  // If no quantity, use 0
-  return sum + price * qty;
-}, 0);
+let total = 0;
+
+cart.forEach(item => {
+  const price = parseFloat(item.price || 0);       // e.g., 2000
+  const discount = parseFloat(item.discount || 0); // e.g., 200
+  const quantity = parseInt(item.quantity || 1);   // default 1
+
+  const discountedPrice = price - (price * discount / 100);
+const finalPrice = discountedPrice * quantity;
+
+  total += finalPrice;
+});
 
 // Update amount input field and display
 document.getElementById("amount").value = total;

@@ -24,15 +24,39 @@ router.get('/products/add',isLoggedIn, isAdmin, (req, res) => {
   res.render('admin/addProduct');
 });
 // Add Product
-router.post('/products/add',isAdmin,upload.single('image'),  async (req, res) => {
-let { name, price, category,section, description,sizes,colors,discount, stock } = req.body;
- sizes = sizes.split(',').map(s => s.trim());   // 🔥 convert to array
-colors = colors.split(',').map(c => c.trim()); // 🔥 convert to array
-discount = Number(discount);  
-const image = req.file ? `/uploads/${req.file.filename}` : '';
+router.post('/products/add', isAdmin, upload.array('images', 5), async (req, res) => {
+  try {
+    let { name, price, category, section, description, sizes, colors, discount, stock } = req.body;
 
-await Product.create({ name, price, category,section, description, sizes,colors,discount, image, stock });
-res.redirect('/admin');
+    sizes = sizes.split(',').map(s => s.trim());
+    colors = colors.split(',').map(c => c.trim());
+    discount = Number(discount);
+    stock = Number(stock);
+
+    const images = req.files.map(file => ({
+      url: `/uploads/${file.filename}`,
+      filename: file.filename
+    }));
+
+    const product = new Product({
+      name,
+      price,
+      category,
+      section,
+      description,
+      sizes,
+      colors,
+      discount,
+      stock,
+      images
+    });
+
+    await product.save();
+    res.redirect('/admin');
+  } catch (err) {
+    console.error("Error saving product:", err);
+    res.status(500).send("Error saving product");
+  }
 });
 
 // Delete Product
@@ -40,21 +64,25 @@ router.post('/products/delete/:id',isAdmin, async (req, res) => {
   await Product.findByIdAndDelete(req.params.id);
   res.redirect('/admin');
 });
-router.get('/products/edit/:id',isAdmin,upload.single('image'), async (req, res) => {
+router.get('/products/edit/:id',isAdmin,upload.array('images', 5), async (req, res) => {
   const product = await Product.findById(req.params.id);
   if (!product) return res.status(404).send("Product not found");
   res.render('admin/editProduct', { product });
 });
 
 // POST: Update Product
-router.post('/products/edit/:id', isAdmin, upload.single('image'), async (req, res) => {
+router.post('/products/edit/:id', isAdmin, upload.array('images', 5), async (req, res) => {
   try {
     let { name, price, category, section, description, sizes, colors, discount, stock } = req.body;
     sizes = sizes.split(',').map(s => s.trim());
     colors = colors.split(',').map(c => c.trim());
     discount = Number(discount);
-
-    let image = req.file ? `/uploads/${req.file.filename}` : null;
+let images = req.files && req.files.length > 0
+  ? req.files.map(f => ({
+      url: `/uploads/${f.filename}`,
+      filename: f.filename
+    }))
+  : null;
 
     // Update only the fields provided
     const updatedFields = {
@@ -68,7 +96,7 @@ router.post('/products/edit/:id', isAdmin, upload.single('image'), async (req, r
       discount,
       stock,
     };
-    if (image) updatedFields.image = image;
+    if (images) updatedFields.images = images;
 
     await Product.findByIdAndUpdate(req.params.id, updatedFields);
     res.redirect('/admin');

@@ -1,15 +1,23 @@
  <% layout("/layouts/boilerplate") %>
- <section id="page-header" class="about-header">
-        
-        <h2>#KnowUs</h2>
-       <p>Save more with coupons & upto 70% off</p>
-     
-    </section>
+ <div id="page-header">
+  <div class="about-header">
+    <h1>#KnowUs</h1>
+    <p>Save more with coupons & upto 70% off</p>
+  </div>
+</div>
    <section id="about-head" class="section-p1">
     <img src="/images/a6.jpg" alt="">
     <div>
       <h2>Who we are?</h2>
-      <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Iure deserunt accusamus, minus officiis odit, voluptatem qui facere nisi eaque autem quas tenetur molestias. Molestias dolorum excepturi eum ratione nemo in?</p>
+     <p>
+  At <strong>Cara</strong>, we believe shopping should be joyful, simple, and personal. We're an online fashion and lifestyle destination offering the latest trends in clothing, accessories, and more — all from the comfort of your home.
+</p>
+<p>
+  Whether you're looking for stylish outfits, cozy wear, or the perfect seasonal picks, we aim to make your shopping experience seamless and satisfying. Our platform brings together quality, affordability, and convenience under one roof.
+</p>
+<p>
+  Backed by a passionate team of developers and designers, Cara is more than just a store — it’s your style companion.
+</p>
       <abbr title="">Create Stunning images with as much or as little control as you like thanks to a choice of Basic and creative mode</abbr>
       <br>
       <br>
@@ -27,8 +35,8 @@
             <h4>Sign Up for NewsLetter</h4>
             <p>Get E-mail updates about our latest shop and <span>special offer</span></p>
         </div>
-        <div class="form">
-            <input type="text" placeholder="Your E-mail address">
-            <button class="normal">Sign Up</button>
-        </div>
+     <form action="/subscribe" method="POST" class="form d-flex gap-2">
+    <input type="email" name="email" placeholder="Your E-mail address" required class="form-control" />
+    <button class="normal btn btn-success" type="submit">Sign Up</button>
+</form>
     </section>

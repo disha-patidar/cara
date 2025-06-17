@@ -51,7 +51,8 @@ const productSchema = new mongoose.Schema({
   colors: [String], // e.g. ["Red", "Blue", "Black"]
   images: [
     {
-      type: String, // URL to image
+      url: String,
+      filename:String, // URL to image
     },
   ],
   createdAt: {

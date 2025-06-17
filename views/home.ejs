@@ -1,12 +1,12 @@
 <% layout("/layouts/boilerplate") %>
 
- <section id="hero" img src="/images/hero4.png">
-        <h4>Trade-in-offer</h4>
-        <h2>Super value deals</h2>
-        <h1>On all products</h1>
-        <p>Save more with coupons & upto 70% off</p>
-       <a href="/listing" class="btn-shop-now">Shop Now</a>
-  </section>
+<section id="hero" style="background-image: url('/images/hero4.png');">
+    <h4>Trade-in-offer</h4>
+    <h2>Super value deals</h2>
+    <h1>On all products</h1>
+    <p>Save more with coupons & upto 70% off</p>
+    <a href="/listing" class="btn-shop-now">Shop Now</a>
+</section>
     <section id="feature" class="section-p1">
         <div class="fe-box">
             <img src="/images/f1.png">
@@ -80,9 +80,9 @@
             <h4>Sign Up for NewsLetter</h4>
             <p>Get E-mail updates about our latest shop and <span>special offer</span></p>
         </div>
-        <div class="form">
-            <input type="text" placeholder="Your E-mail address">
-            <button class="normal">Submit</button>
-        </div>
+        <form action="/subscribe" method="POST" class="form d-flex gap-2">
+    <input type="email" name="email" placeholder="Your E-mail address" required class="form-control" />
+    <button class="normal btn btn-success" type="submit">Sign Up</button>
+</form>
     </section>
 

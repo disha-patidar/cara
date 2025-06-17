@@ -11,7 +11,7 @@ const razorpay = new Razorpay({
 });
 
 // GET Checkout Page
-router.get("/", (req, res) => {
+router.get("/",isLoggedIn, (req, res) => {
   const cart = req.session.cart || [];
   const totalAmount = cart.reduce((sum, item) => sum + item.price * item.quantity, 0);
 
@@ -22,7 +22,7 @@ router.get("/", (req, res) => {
     razorpayKey: process.env.RAZORPAY_KEY_ID
   });
 });
-router.post('/checkout/create-order', async (req, res) => {
+router.post('/checkout/create-order',isLoggedIn, async (req, res) => {
   const amount = req.body.amount;
   console.log("Final cart total amount:", amount); // ✅ now you’ll see the correct value
 });
@@ -81,7 +81,7 @@ router.post('/checkout/verify-payment', async (req, res) => {
   }
 });*/
 
-router.post("/checkout/verify-payment", async (req, res) => {
+router.post("/checkout/verify-payment",isLoggedIn, async (req, res) => {
   try {
     // ✅ Payment was successful — save order
     const {
@@ -104,11 +104,40 @@ router.post("/checkout/verify-payment", async (req, res) => {
     });
 
     await newOrder.save();
+ const transporter = nodemailer.createTransport({
+      service: 'gmail',
+      auth: {
+        user: 'yourshopemail@gmail.com',
+        pass: 'your-app-password' // NOT your normal Gmail password
+      }
+    });
+
+    // ✅ Create mail options
+    const mailOptions = {
+      from: 'yourshopemail@gmail.com',
+      to: 'adminemail@example.com', // Admin's email
+      subject: `🛒 New Order Received from ${name}`,
+      html: `
+        <h2>New Order Details</h2>
+        <p><strong>Name:</strong> ${name}</p>
+        <p><strong>Email:</strong> ${email}</p>
+        <p><strong>Phone:</strong> ${phone}</p>
+        <p><strong>Address:</strong> ${address}, ${city}, ${postalCode}</p>
+        <p><strong>Total:</strong> ₹${total}</p>
+        <h4>Items:</h4>
+        <ul>
+          ${cart.map(item => `<li>${item.name} x ${item.quantity}</li>`).join('')}
+        </ul>
+      `
+    };
+
+    // ✅ Send email
+    await transporter.sendMail(mailOptions);
 
     res.json({ success: true });
   } catch (err) {
-    console.error("Order save error:", err);
-    res.status(500).json({ success: false, error: "Order creation failed" });
+    console.error("Error verifying payment or sending mail:", err);
+    res.status(500).json({ success: false, error: "Server error" });
   }
 });
 // GET Order Success Page

@@ -11,7 +11,9 @@ const sampleProducts = [
     stock: 50,
     sizes: ["S","M", "L", "XL"],
     colors: ["Black", "Brown"],
-    images:["//plus.unsplash.com/premium_photo-1707816501228-1d814ad62d7b?w=600&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8Nnx8bWVuJTIwamFja2V0fGVufDB8fDB8fHww"],
+    images:{url:"//plus.unsplash.com/premium_photo-1707816501228-1d814ad62d7b?w=600&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8Nnx8bWVuJTIwamFja2V0fGVufDB8fDB8fHww",
+    filename:"image",
+    }
   
   },
    {
@@ -25,7 +27,8 @@ const sampleProducts = [
     stock: 40,
     sizes: ["S","M", "L", "XL"],
     colors: ["Beige", "Pink"],
-    images: ["https://plus.unsplash.com/premium_photo-1675186049563-000f7ac02c44?w=600&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8Mnx8amFja2V0c3xlbnwwfHwwfHx8MA%3D%3D"],
+    images: {url:"https://plus.unsplash.com/premium_photo-1675186049563-000f7ac02c44?w=600&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8Mnx8amFja2V0c3xlbnwwfHwwfHx8MA%3D%3D",
+      filename:"image",    },
   },
   {
     name: "Men's Winter Sweatshirt",
@@ -38,7 +41,9 @@ const sampleProducts = [
     stock: 50,
     sizes: ["S","M", "L", "XL"],
     colors: ["Black", "Navy Blue"],
-    images: ["https://media.istockphoto.com/id/1305793711/photo/blank-hooded-sweatshirt-mockup-for-print-isolated-on-white-background.jpg?s=2048x2048&w=is&k=20&c=nd4-USUUO5xgadHLg8xXYwSlmHQjul1hgegeGAPrD18="],
+    images: {url:"https://media.istockphoto.com/id/1305793711/photo/blank-hooded-sweatshirt-mockup-for-print-isolated-on-white-background.jpg?s=2048x2048&w=is&k=20&c=nd4-USUUO5xgadHLg8xXYwSlmHQjul1hgegeGAPrD18=",
+      filename:"image",
+    }
   
   },
   {
@@ -52,7 +57,8 @@ const sampleProducts = [
     stock: 80,
     sizes: ["S", "M", "L","XL"],
     colors: ["White", "Green"],
-    images: ["https://media.istockphoto.com/id/1407031756/photo/portrait-of-handsome-man.jpg?s=2048x2048&w=is&k=20&c=ZtHFAEV0sCW81uJY_-Ra2DotlVH2pbQJs5KqyWLNC5c="],
+    images: {url:"https://media.istockphoto.com/id/1407031756/photo/portrait-of-handsome-man.jpg?s=2048x2048&w=is&k=20&c=ZtHFAEV0sCW81uJY_-Ra2DotlVH2pbQJs5KqyWLNC5c=",
+      filename:"image",}
   },
   {
     name: "Men's TShirt",
@@ -65,7 +71,9 @@ const sampleProducts = [
     stock: 80,
     sizes: ["S", "M", "L","XL"],
     colors: ["White", "Sky Blue"],
-    images: ["https://images.unsplash.com/photo-1583743814966-8936f5b7be1a?w=600&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MTd8fHRzaGlydCUyMGRlc2lnbmVyfGVufDB8fDB8fHww"],
+    images: {url:"https://images.unsplash.com/photo-1583743814966-8936f5b7be1a?w=600&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MTd8fHRzaGlydCUyMGRlc2lnbmVyfGVufDB8fDB8fHww",
+      filename:"image",
+    }
   },
    {
     name: "Jackets for Men",
@@ -78,7 +86,9 @@ const sampleProducts = [
     stock: 80,
     sizes: ["S", "M", "L","XL"],
     colors: ["Black"],
-    images: ["https://plus.unsplash.com/premium_photo-1671030274122-b6ac34f87b8b?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"],
+    images: {url:"https://plus.unsplash.com/premium_photo-1671030274122-b6ac34f87b8b?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+      filename:"image",
+    }
   },
 
   {
@@ -92,7 +102,8 @@ const sampleProducts = [
     stock: 80,
     sizes: ["S", "M", "L","XL"],
     colors: ["White", "Sky Blue"],
-    images: ["https://images.unsplash.com/photo-1620799140408-edc6dcb6d633?w=600&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8OXx8c2hpcnR8ZW58MHx8MHx8fDA%3D"],
+    images: {url:"https://images.unsplash.com/photo-1620799140408-edc6dcb6d633?w=600&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8OXx8c2hpcnR8ZW58MHx8MHx8fDA%3D",
+      filename:"image"}
   },
    {
     name: "Women's Top",
@@ -105,7 +116,8 @@ const sampleProducts = [
     stock: 40,
     sizes: ["S","M", "L", "XL"],
     colors: ["Beige", "Pink"],
-    images: ["https://plus.unsplash.com/premium_photo-1687188208380-3280626ec43e?q=80&w=1976&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"],
+    images: {url:"https://plus.unsplash.com/premium_photo-1687188208380-3280626ec43e?q=80&w=1976&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+      filename:"image",}
   },
    {
     name: "Men's Jeans",
@@ -118,7 +130,9 @@ const sampleProducts = [
     stock: 80,
     sizes: ["S", "M", "L","XL"],
     colors: ["White", "Sky Blue","Black"],
-    images: ["images.unsplash.com/photo-1714143136367-7bb68f3f0669?w=600&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MjR8fG1lbiUyMGplYW5zfGVufDB8fDB8fHww"],
+    images: {url:"images.unsplash.com/photo-1714143136367-7bb68f3f0669?w=600&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MjR8fG1lbiUyMGplYW5zfGVufDB8fDB8fHww",
+      filename:"image",
+    }
   },
    {
     name: "Women's Skirt",
@@ -131,7 +145,9 @@ const sampleProducts = [
     stock: 60,
     sizes: ["S", "M", "L", "XL"],
     colors: ["Beige", "Black"],
-    images: ["https://images.unsplash.com/photo-1594633313515-7ad9334a2349?w=600&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8N3x8c2tpcnR8ZW58MHx8MHx8fDA%3D"],
+    images: {url:"https://images.unsplash.com/photo-1594633313515-7ad9334a2349?w=600&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8N3x8c2tpcnR8ZW58MHx8MHx8fDA%3D",
+      filename:"image",
+    }
   },
 
  
@@ -146,7 +162,9 @@ const sampleProducts = [
     stock: 80,
     sizes: ["S", "M", "L","XL"],
     colors: ["White", "Sky Blue","Black"],
-    images: ["https://media.istockphoto.com/id/1145903657/photo/dark-blue-jeans-with-tag-isolated-on-white-background.jpg?s=1024x1024&w=is&k=20&c=qvJj2mxRoPTd59M2PJUSvAEvN9FweAzy_bOpOVCB_wc="],
+    images: {url:"https://media.istockphoto.com/id/1145903657/photo/dark-blue-jeans-with-tag-isolated-on-white-background.jpg?s=1024x1024&w=is&k=20&c=qvJj2mxRoPTd59M2PJUSvAEvN9FweAzy_bOpOVCB_wc=",
+      filename:"image",
+    }
   },
   {
     name: "Women's Top",
@@ -159,7 +177,7 @@ const sampleProducts = [
     stock: 40,
     sizes: ["S","M", "L", "XL"],
     colors: ["Black", "Pink"],
-    images: ["https://unsplash.com/plus?referrer=%2Fphotos%2Fa-person-wearing-a-tank-top-CKNfOMxKorg"],
+    images: {url:"https://unsplash.com/plus?referrer=%2Fphotos%2Fa-person-wearing-a-tank-top-CKNfOMxKorg",filename:"image"},
   },
    {
     name: "Men's Jeans",
@@ -172,7 +190,8 @@ const sampleProducts = [
     stock: 80,
     sizes: ["S", "M", "L","XL"],
     colors: ["White", "Yellow","Black"],
-    images: ["https://plus.unsplash.com/premium_photo-1683140431958-31505d0fd1ff?q=80&w=1974&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"],
+    images: {url:"https://plus.unsplash.com/premium_photo-1683140431958-31505d0fd1ff?q=80&w=1974&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+      filename:"image"}
   },
 
 
@@ -188,7 +207,9 @@ const sampleProducts = [
     stock: 60,
     sizes: ["S", "M", "L", "XL"],
     colors: ["Pink", "Yellow"],
-    images: ["https://images.unsplash.com/photo-1496747611176-843222e1e57c?w=600&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8OXx8ZHJlc3N8ZW58MHx8MHx8fDA%3D"],
+    images: {url:"https://images.unsplash.com/photo-1496747611176-843222e1e57c?w=600&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8OXx8ZHJlc3N8ZW58MHx8MHx8fDA%3D",
+      filename:"image",
+    }
   },
  {
     name: "Women's Summer Jumpsuits",
@@ -201,7 +222,8 @@ const sampleProducts = [
     stock: 60,
     sizes: ["S", "M", "L", "XL"],
     colors: ["Pink", "Green"],
-    images: ["https://images.unsplash.com/photo-1618932260643-eee4a2f652a6?w=600&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8NXx8ZHJlc3N8ZW58MHx8MHx8fDA%3D"],
+    images: {url:"https://images.unsplash.com/photo-1618932260643-eee4a2f652a6?w=600&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8NXx8ZHJlc3N8ZW58MHx8MHx8fDA%3D",
+      filename:"image"}
   },
  
    {
@@ -215,7 +237,9 @@ const sampleProducts = [
     stock: 40,
     sizes: ["S","M", "L", "XL"],
     colors: ["Beige", "Pink"],
-    images: ["https://media.istockphoto.com/id/1248498822/photo/portrait-of-a-young-pretty-female-student-in-a-white-hoodie-casual-clothing-against-a.jpg?s=1024x1024&w=is&k=20&c=0XIN514PiG3QlEXaygwgjmlwddSujiYfoAklfUpyBMM="],
+    images: {url:"https://media.istockphoto.com/id/1248498822/photo/portrait-of-a-young-pretty-female-student-in-a-white-hoodie-casual-clothing-against-a.jpg?s=1024x1024&w=is&k=20&c=0XIN514PiG3QlEXaygwgjmlwddSujiYfoAklfUpyBMM=",
+      filename:"image"
+    }
   },
   
    {
@@ -229,7 +253,9 @@ const sampleProducts = [
     stock: 40,
     sizes: ["S","M", "L", "XL"],
     colors: ["Beige", "Pink"],
-    images: ["//media.istockphoto.com/id/1354251572/photo/woman-black-leather-jacket-isolated-on-white-background.jpg?s=612x612&w=0&k=20&c=YWIQdgb0n1C86BxwZVeD8Exx_c6MfQf1emtZKGLW4Ng="],
+    images: {url:"//media.istockphoto.com/id/1354251572/photo/woman-black-leather-jacket-isolated-on-white-background.jpg?s=612x612&w=0&k=20&c=YWIQdgb0n1C86BxwZVeD8Exx_c6MfQf1emtZKGLW4Ng=",
+      filename:"image"
+    }
   },
 ];
 module.exports={ data:sampleProducts };

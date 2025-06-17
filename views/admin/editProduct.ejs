@@ -118,11 +118,11 @@
     <input type="number" name="stock" value="<%= product.stock %>" required>
 
     <label>Change Image</label>
-    <input type="file" name="image">
+    <input type="file" name="images">
 
     <div class="product-preview">
       <p>Current Image:</p>
-      <img src="<%= product.image %>" alt="Product Image">
+      <img src="<%= product.images.url %>" alt="Product Image">
     </div>
 
     <button type="submit">Update Product</button>

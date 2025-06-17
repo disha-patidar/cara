@@ -13,16 +13,18 @@ const Product = require("./models/product");
 const User = require("./models/user.js");
 const Order = require("./models/order.js");
 // adjust path
+const contactRoutes = require('./routes/contact');
 const Review = require("./models/review.js");
 const userRoutes=require("./routes/user.js");
 const cartRoutes = require("./routes/cart");
 const productRoutes = require("./routes/product.js");
 const bodyParser = require("body-parser");
-
+const newsletterRoutes = require("./routes/newsletter");
 
 const checkoutRoutes = require('./routes/checkout');
 const orderRoutes = require('./routes/order');
 const reviewRoutes = require('./routes/review');
+
 
 const passport = require("passport");
 const LocalStrategy = require("passport-local");
@@ -49,8 +51,12 @@ app.use(bodyParser.json());
 app.use(methodOverride("_method"));
 app.engine("ejs", ejsMate);
 app.use(express.static(path.join(__dirname, "/public"))); 
+app.use('/uploads', express.static(path.join(__dirname, 'public/uploads')));
 app.use('/uploads', express.static('public/uploads'));
+app.use('/uploads', express.static('uploads'));
+app.use(express.static('public'));
 app.use(express.json());
+
 
 
 const sessionConfig = {
@@ -82,20 +88,21 @@ app.use((req, res, next) => {
   next();
 });
 app.use((req, res, next) => {
-  console.log("req.user in global middleware:", req.user); // debug line
   res.locals.currUser = req.user;
   next();
 });
-
 app.use(productRoutes);
 app.use("/", userRoutes);
 app.use("/cart", cartRoutes);
 app.use('/products/:id/reviews', reviewRoutes);
+
+app.use(contactRoutes);
 app.use('/admin', adminRoutes);
 app.use('/admin', require('./routes/admin')); 
 app.use("/checkout", checkoutRoutes);
 app.use("/order", orderRoutes);
 
+app.use(newsletterRoutes);
 app.get("/products/:id", async (req, res) => {
   const product = await Product.findById(req.params.id);
   if (!product) return res.status(404).send("Product not found");
@@ -122,8 +129,27 @@ app.get("/wishlist", (req, res) => {
 app.get("/order",(req,res)=>{
 res.render("success");
 });
+app.get("/privacy",(req,res)=>{
+res.render("privacy");
+});
+app.get("/terms",(req,res)=>{
+res.render("terms");
+});
+app.get("/refund",(req,res)=>{
+res.render("refund");
+});
+app.get("/blog",(req,res)=>{
+res.render("blog");
+});
+app.get("/contact",(req,res)=>{
+res.render("contact");
+});
 app.use((req, res, next) => {
   res.locals.currUser = req.user;
+  next();
+});
+app.use((req, res, next) => {
+  console.log("req.user in global middleware:", req.user);
   next();
 });
 

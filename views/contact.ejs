@@ -1,0 +1,207 @@
+<% layout("/layouts/boilerplate") %>
+<style>
+  body {
+  font-family: 'Segoe UI', sans-serif;
+  color: #333;
+  margin: 0;
+  padding: 0;
+}
+
+.header h1 {
+  font-size: 36px;
+  margin-bottom: 10px;
+}
+
+.header p {
+  font-size: 18px;
+  color: #555;
+}
+
+.section {
+  display: flex;
+  justify-content: space-between;
+  padding: 40px 80px;
+  gap: 40px;
+  flex-wrap: wrap;
+}
+
+.details {
+  flex: 1;
+  min-width: 300px;
+}
+
+.details h2 {
+  font-size: 24px;
+  margin: 10px 0;
+}
+
+.details ul {
+  list-style: none;
+  padding: 0;
+}
+
+.details li {
+  display: flex;
+  align-items: center;
+  margin-bottom: 10px;
+  font-size: 16px;
+}
+
+.details i {
+  margin-right: 10px;
+  color: #3f8efc;
+}
+
+.map {
+  flex: 1;
+  min-width: 300px;
+  height: 450px;
+}
+
+/* Form Section */
+#form-details {
+  padding: 40px 80px;
+  background: #f7f7f7;
+}
+
+#form-details form {
+  max-width: 600px;
+  margin: auto;
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+  background: white;
+  padding: 30px;
+  border-radius: 10px;
+  box-shadow: 0 0 10px rgba(0,0,0,0.1);
+}
+
+#form-details input,
+#form-details textarea {
+  padding: 12px;
+  font-size: 16px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+}
+
+#form-details button {
+  padding: 12px;
+  background: #3f8efc;
+  color: white;
+  font-weight: bold;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: 0.3s;
+}
+
+#form-details button:hover {
+  background: #316cd9;
+}
+
+/* ✅ Media Queries */
+@media screen and (max-width: 768px) {
+  .section {
+    flex-direction: column;
+    padding: 20px;
+  }
+
+  #form-details {
+    padding: 20px;
+  }
+
+  #form-details form {
+    padding: 20px;
+  }
+
+  .map {
+    height: 300px;
+  }
+}
+
+@media screen and (max-width: 480px) {
+  .header h1 {
+    font-size: 28px;
+  }
+
+  .header p {
+    font-size: 16px;
+  }
+
+  .details h2 {
+    font-size: 20px;
+  }
+
+  #form-details form {
+    padding: 15px;
+  }
+
+  #newsletter form {
+    flex-direction: column;
+  }
+}
+.contact-footer{
+  background-image: url("/images/b17.jpg");
+    background-size: cover;
+  width: 100%;
+  height: 40vh;
+  display: flex;
+  justify-content: left;
+  
+  flex-direction: column;
+  padding: 14px;
+}
+ .contact-footer h1{
+            font-weight: 700;
+            color: black;
+            font-size: 40px;
+       margin-top: 90px;
+       margin-left: 100px;
+
+            }
+</style>
+<!-- Link your stylesheet -->
+<link rel="stylesheet" href="/css/contact.css" />
+
+<div id="page-header" class="header">
+  <div class="contact-header">
+    <h1>#Let's Talk</h1>
+    <p>Leave a message, we love to hear from you!</p>
+  </div>
+</div>
+
+<section id="contact-details" class="section">
+  <div class="details">
+    <span>Get In Touch</span>
+    <h2>Visit one of our agency locations or contact us today</h2>
+    <h3>Head Office</h3>
+    <ul>
+      <li><i class="fa-solid fa-map"></i> 56 GlassFord Street, Indore</li>
+      <li><i class="fa-solid fa-envelope"></i> cara64582@gmail.com</li>
+      <li><i class="fa-solid fa-phone"></i> +91 9876543210</li>
+      <li><i class="fa-solid fa-clock"></i> Mon – Sat: 9:00 AM to 6:00 PM</li>
+    </ul>
+  </div>
+
+  <div class="map">
+    <iframe src="https://www.google.com/maps/embed?pb=..." width="100%" height="450" style="border:0;" allowfullscreen="" loading="lazy"></iframe>
+  </div>
+</section>
+
+<section id="form-details">
+<form action="/contact" method="POST">
+  <span>Leave a message</span>
+  <h2>We love to hear from you <i class="fa-solid fa-heart"></i></h2>
+  <input type="text" name="name" placeholder="Your name" required />
+  <input type="email" name="email" placeholder="Email" required />
+  <input type="text" name="subject" placeholder="Subject" required />
+  <textarea name="message" cols="30" rows="10" placeholder="Your message" required></textarea>
+  <button type="submit">Submit</button>
+</form>
+</section>
+<div id="page-footer">
+  <div class="contact-footer">
+    <h1>#Keep Shopping</h1>
+  
+  </div>
+</div>

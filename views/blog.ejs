@@ -1,0 +1,107 @@
+ <% layout("/layouts/boilerplate") %>
+ <div id="page-header">
+  <div class="blog-header">
+    <h1>#ReadMore</h1>
+    <p>Read all case studies about our products</p>
+  </div>
+</div>
+<section id="blog">
+  <div class="blog-box">
+    <div class="blog-img">
+      <img src="/images/b1 (1).jpg" alt="">
+    </div>
+    <div class="blog-details">
+      <h4><b>Must-Have Fashion Trends for This Season</b> </h4>
+      <p>This season is all about comfort with a splash of bold expression. From oversized blazers to earthy tones, we’ve rounded up the top 5 fashion trends that are dominating wardrobes this year—and how you can style them with pieces from Cara.</p>
+      <a href="#">CONTINUE READING</a>
+    </div>
+    <h1>13/01</h1>
+  </div>
+     <div class="blog-box">
+    <div class="blog-img">
+      <img src="/images/b3.jpg" alt="">
+    </div>
+    <div class="blog-details">
+      <h4><b>How to Build the Perfect Capsule Wardrobe </b></h4>
+      <p>Less is more—especially with a capsule wardrobe. Learn how to build a timeless, minimalist closet with a few quality pieces from Cara that mix, match, and last.
+
+
+</p>
+    <a href="#blog-details-1" class="scroll-link">CONTINUE READING</a>
+    </div>
+    <h1>13/01</h1>
+  </div>
+
+    <div class="blog-box">
+    <div class="blog-img">
+      <img src="/images/b7.jpg" alt="">
+    </div>
+    <div class="blog-details">
+      <h4><b> Festival-Ready Looks You’ll Love</b></h4>
+      <p>Get your glam on! With the festival season approaching, it’s time to bring out the sparkle, comfort, and color. We’ve curated a list of outfits and accessories from Cara that are perfect for music fests, outdoor parties, and everything in between.
+
+</p>
+  <a href="#blog-details-1" class="scroll-link">CONTINUE READING</a>
+    </div>
+    <h1>13/01</h1>
+  </div>
+   <div class="blog-box">
+    <div class="blog-img">
+      <img src="/images/b19.jpg" alt="">
+    </div>
+    <div class="blog-details">
+      <h4><b>How to Transition Your Wardrobe from Summer to Fall</b></h4>
+      <p>As the weather shifts, so should your wardrobe. We’ve got easy styling tips to help you repurpose your summer favorites with cozy fall layers and accessories from Cara.</p>
+     <a href="#blog-details-1" class="scroll-link">CONTINUE READING</a>
+    </div>
+    <h1>13/01</h1>
+  </div>
+   <div class="blog-box">
+    <div class="blog-img">
+      <img src="/images/b2 (1) - Copy.jpg" alt="">
+    </div>
+    <div class="blog-details">
+      <h4><b> How to Style Basics for a High-End Look</b></h4>
+      <p>Don’t underestimate the power of wardrobe basics! We show you how to mix and match simple items like plain tees, neutral trousers, and classic denim to create elevated looks that turn heads—on a budget.</p>
+    <a href="#blog-details-1" class="scroll-link">CONTINUE READING</a>
+    </div>
+    <h1>13/01</h1>
+  </div>
+  
+
+ 
+    
+</section>
+
+     <section id="news-letter" class="section-p1">
+        <div class="newstext">
+            <h4>Sign Up for NewsLetter</h4>
+            <p>Get E-mail updates about our latest shop and <span>special offer</span></p>
+        </div>
+     <form action="/subscribe" method="POST" class="form d-flex gap-2">
+    <input type="email" name="email" placeholder="Your E-mail address" required class="form-control" />
+    <button class="normal btn btn-success" type="submit">Sign Up</button>
+</form>
+    </section>
+    <script>
+      document.querySelectorAll('.scroll-link').forEach(link => {
+  link.addEventListener('click', function (e) {
+    e.preventDefault();
+    const target = document.querySelector(this.getAttribute('href'));
+    if (target) {
+      target.scrollIntoView({ behavior: 'smooth' });
+    }
+  });
+});
+document.getElementById("newsletterForm").addEventListener("submit", function (e) {
+  e.preventDefault();
+
+  const email = this.email.value;
+
+  // Frontend-only simulation (you can also use fetch to POST to server)
+  document.getElementById("formMessage").innerText = `Thanks for subscribing, ${email}!`;
+  document.getElementById("formMessage").style.display = "block";
+
+  this.reset();
+});
+    </script>
