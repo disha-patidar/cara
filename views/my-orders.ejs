@@ -1,0 +1,114 @@
+<% layout("/layouts/boilerplate") %>
+
+<style>
+  .orders-container {
+    max-width: 1000px;
+    margin: 40px auto;
+    padding: 0 20px;
+    font-family: 'Segoe UI', sans-serif;
+  }
+
+  .orders-heading {
+    text-align: center;
+    margin-bottom: 40px;
+    font-size: 32px;
+    color: #333;
+  }
+
+  .order-card {
+    background: #fff;
+    border-radius: 12px;
+    border: 1px solid #e0e0e0;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+    margin-bottom: 25px;
+    padding: 25px;
+    transition: 0.3s;
+  }
+
+  .order-card:hover {
+    box-shadow: 0 4px 16px rgba(0,0,0,0.1);
+  }
+
+  .order-header {
+    margin-bottom: 15px;
+  }
+
+  .order-header h4 {
+    margin: 0;
+    font-size: 20px;
+    color: #444;
+  }
+
+  .order-meta p {
+    margin: 5px 0;
+    color: #555;
+  }
+
+  .order-items {
+    margin-top: 15px;
+    padding-left: 20px;
+  }
+
+  .order-items li {
+    margin-bottom: 8px;
+    color: #333;
+  }
+
+  .order-link {
+    display: inline-block;
+    margin-top: 15px;
+    color: #007bff;
+    text-decoration: none;
+    font-weight: 500;
+  }
+
+  .order-link:hover {
+    text-decoration: underline;
+  }
+
+  .no-orders {
+    text-align: center;
+    font-size: 18px;
+    color: #888;
+    margin-top: 100px;
+  }
+</style>
+
+<div class="orders-container">
+  <h2 class="orders-heading">My Orders</h2>
+
+  <% if (orders.length === 0) { %>
+    <p class="no-orders">You have not placed any orders yet.</p>
+  <% } else { %>
+    <% orders.forEach(order => { %>
+      <div class="order-card">
+        <div class="order-header">
+          <h4>Order ID: <%= order._id %></h4>
+        </div>
+
+        <div class="order-meta">
+          <p><strong>Status:</strong> <%= order.status %></p>
+          <p><strong>Placed on:</strong> <%= order.createdAt.toDateString() %></p>
+          <p><strong>Total:</strong> ₹<%= order.totalAmount || order.total %></p>
+        </div>
+
+        <ul class="order-items">
+          <% order.cart.forEach(item => { %>
+            <li><%= item.name %> - Qty: <%= item.quantity %>, ₹<%= item.price %></li>
+          <% }) %>
+        </ul>
+
+        <a class="order-link" href="/order/details/<%= order._id %>">View Order Details</a>
+      </div>
+    <% }) %>
+  <% } %>
+</div>
+<% orders.forEach(order => { %>
+  <% if (order.status === 'Delivered' && !order.returnStatus) { %>
+    <form action="/order/request-return/<%= order._id %>" method="POST" style="margin-top: 10px;">
+      <button type="submit" style="background-color:#f44336; color:white; padding:8px 12px; border:none; border-radius:6px; cursor:pointer;">
+        Request Return
+      </button>
+    </form>
+  <% } %>
+<% }) %>

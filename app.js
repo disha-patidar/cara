@@ -22,18 +22,16 @@ const cartRoutes = require("./routes/cart");
 const productRoutes = require("./routes/product.js");
 const bodyParser = require("body-parser");
 const newsletterRoutes = require("./routes/newsletter");
-
 const checkoutRoutes = require('./routes/checkout');
 const orderRoutes = require('./routes/order');
 const reviewRoutes = require('./routes/review');
-
-
 const passport = require("passport");
 const LocalStrategy = require("passport-local");
 const adminRoutes = require('./routes/admin');
 const multer = require('multer');
 const { storage }=require("./cloudConfig.js");
 const upload=multer({storage});
+const myOrdersRoute = require('./routes/myOrders');
 
 // Create database
 const MONGO_URL = "mongodb://127.0.0.1:27017/cara";
@@ -103,7 +101,7 @@ app.use('/admin', adminRoutes);
 app.use('/admin', require('./routes/admin')); 
 app.use("/checkout", checkoutRoutes);
 app.use("/order", orderRoutes);
-
+app.use(myOrdersRoute);
 app.use("/", trackingRoute); //
 app.use(newsletterRoutes);
 app.get("/products/:id", async (req, res) => {
@@ -147,7 +145,19 @@ res.render("blog");
 app.get("/contact",(req,res)=>{
 res.render("contact");
 });
-
+app.get("/payment",(req,res)=>{
+res.render("payment");
+});
+app.get("/return",(req,res)=>{
+res.render("payment");
+});
+app.get("/order-confirmation", (req, res) => {
+  res.render("order-confirmation"); // this looks for `views/order-confirmation.ejs`
+});
+app.get("/product", async (req, res) => {
+  const products = await Product.find({});
+  res.render("listing", { products });
+});
 
 app.use((req, res, next) => {
   res.locals.currUser = req.user;

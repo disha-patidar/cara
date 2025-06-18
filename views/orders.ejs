@@ -1,0 +1,19 @@
+<% layout("/layouts/boilerplate") %>
+<h2>My Orders</h2>
+<% if (orders.length === 0) { %>
+  <p>No orders yet.</p>
+<% } else { %>
+  <% orders.forEach(order => { %>
+    <div style="border: 1px solid #ccc; padding: 20px; margin-bottom: 20px;">
+      <h3>Order ID: <%= order._id %></h3>
+      <p>Total: ₹<%= order.totalAmount %></p>
+      <p>Status: <%= order.status %></p>
+      <p>Placed on: <%= order.createdAt.toDateString() %></p>
+      <ul>
+        <% order.cart.forEach(item => { %>
+          <li><%= item.name %> x <%= item.quantity %></li>
+        <% }) %>
+      </ul>
+    </div>
+  <% }) %>
+<% } %>

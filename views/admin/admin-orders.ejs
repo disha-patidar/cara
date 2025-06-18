@@ -1,0 +1,136 @@
+`<% layout("/layouts/boilerplate") %>
+
+<style>
+  .admin-orders-container {
+    max-width: 1200px;
+    margin: 40px auto;
+    font-family: 'Segoe UI', sans-serif;
+  }
+
+  .admin-orders-heading {
+    text-align: center;
+    font-size: 32px;
+    color: #2c3e50;
+    margin-bottom: 40px;
+  }
+
+  .order-card {
+    background: #ffffff;
+    border-radius: 12px;
+    border: 1px solid #ddd;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+    padding: 25px;
+    margin-bottom: 30px;
+    transition: box-shadow 0.3s ease;
+  }
+
+  .order-card:hover {
+    box-shadow: 0 6px 16px rgba(0,0,0,0.08);
+  }
+
+  .order-info {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    margin-bottom: 15px;
+  }
+
+  .order-info p {
+    margin: 5px 0;
+    color: #444;
+    flex: 1 1 200px;
+  }
+
+  .order-items {
+    margin-top: 15px;
+    padding-left: 20px;
+  }
+
+  .order-items li {
+    margin-bottom: 6px;
+    color: #333;
+  }
+
+  .no-orders {
+    text-align: center;
+    font-size: 18px;
+    color: #999;
+    margin-top: 80px;
+  }
+
+  .status-badge {
+    display: inline-block;
+    padding: 5px 10px;
+    border-radius: 6px;
+    background-color: #eee;
+    color: #333;
+    font-size: 14px;
+    font-weight: bold;
+  }
+
+  .status-delivered {
+    background-color: #d4edda;
+    color: #155724;
+  }
+
+  .status-pending {
+    background-color: #fff3cd;
+    color: #856404;
+  }
+
+  .status-cancelled {
+    background-color: #f8d7da;
+    color: #721c24;
+  }
+</style>
+
+<div class="admin-orders-container">
+  <h2 class="admin-orders-heading">All Orders (Admin Panel)</h2>
+
+  <% if (orders.length === 0) { %>
+    <p class="no-orders">No orders found.</p>
+  <% } else { %>
+    <% orders.forEach(order => { %>
+      <div class="order-card">
+        <div class="order-info">
+          <p><strong>Order ID:</strong> <%= order._id %></p>
+          <p><strong>User:</strong> <%= order.user ? order.user.name : "Guest User" %></p>
+          <p><strong>Date:</strong> <%= order.createdAt.toDateString() %></p>
+          <p><strong>Total:</strong> ₹<%= order.totalAmount || order.total %></p>
+          <p>
+            <strong>Status:</strong>
+            <span class="status-badge 
+              <%= order.status === 'Delivered' ? 'status-delivered' : 
+                  order.status === 'Pending' ? 'status-pending' : 
+                  order.status === 'Cancelled' ? 'status-cancelled' : '' %>">
+              <%= order.status %>
+            </span>
+          </p>
+        </div>
+
+        <div>
+          <p><strong>Items:</strong></p>
+          <ul class="order-items">
+            <% order.cart.forEach(item => { %>
+              <li><%= item.name %> - Qty: <%= item.quantity %>, ₹<%= item.price %></li>
+            <% }) %>
+          </ul>
+        </div>
+
+        <!-- Optional Admin Actions -->
+        <!-- 
+        <form action="/admin/order/<%= order._id %>/update-status" method="POST" style="margin-top: 15px;">
+          <label for="status">Change Status:</label>
+          <select name="status">
+            <option value="Pending">Pending</option>
+            <option value="Shipped">Shipped</option>
+            <option value="Delivered">Delivered</option>
+            <option value="Cancelled">Cancelled</option>
+          </select>
+          <button type="submit">Update</button>
+        </form>
+        -->
+      </div>
+    <% }) %>
+  <% } %>
+</div>

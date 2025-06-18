@@ -1,38 +1,84 @@
+<style>
+  .pay-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    background: #f3f4f6;
+  }
+
+  .pay-box {
+    background: #fff;
+    padding: 2rem 3rem;
+    border-radius: 12px;
+    text-align: center;
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+  }
+
+  .pay-box h2 {
+    font-size: 1.75rem;
+    color: #111827;
+    margin-bottom: 1rem;
+  }
+
+  .pay-box p {
+    color: #6b7280;
+    margin-bottom: 1.5rem;
+  }
+
+  #rzp-button {
+    background-color: #4f46e5;
+    color: white;
+    padding: 12px 24px;
+    font-size: 1rem;
+    border: none;
+    border-radius: 9999px;
+    cursor: pointer;
+    box-shadow: 0 4px 14px rgba(79, 70, 229, 0.4);
+    transition: background 0.3s ease;
+  }
+  #rzp-button:hover {
+    background-color: #4338ca;
+  }
+</style>
+
+<div class="pay-container">
+  <div class="pay-box">
+    <h2>Complete Your Payment</h2>
+    <p>Click below to proceed with secure Razorpay checkout.</p>
+    <button id="rzp-button">Pay</button>
+  </div>
+</div>
 <script src="https://checkout.razorpay.com/v1/checkout.js"></script>
-
-<button id="rzp-button">Pay Now</button>
-
 <script>
   document.getElementById("rzp-button").onclick = async function (e) {
     e.preventDefault();
 
-    // 1. Create order from server
-    const response = await fetch("/order/create-order", {
+    const response = await fetch("/checkout/create-order", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ amount: 500 }) // ₹500
+      body: JSON.stringify({ amount: 50000 }) // ₹500 in paise
     });
 
     const order = await response.json();
 
-    // 2. Configure Razorpay options
     const options = {
-      key: "YOUR_TEST_KEY_ID",
+      key: "RAZORPAY_KEY_ID", // replace with your actual key or use template var
       amount: order.amount,
       currency: "INR",
-      name: "Your Shop Name",
+      name: "Cara-Ecommerce",
       description: "Test Transaction",
-      order_id: order.id,
+      order_id: order.orderId,
       handler: function (response) {
         alert("Payment successful!");
-        console.log(response);
+        window.location.href = "/order-success";
       },
       prefill: {
         name: "Disha Patidar",
         email: "test@example.com",
         contact: "9999999999"
       },
-      theme: { color: "#3399cc" }
+      theme: { color: "#4f46e5" }
     };
 
     const rzp = new Razorpay(options);

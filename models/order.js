@@ -1,7 +1,12 @@
 const mongoose = require("mongoose");
 
 const orderSchema = new mongoose.Schema({
-  user: {
+ user: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: "User", // Important for linking to user
+    required: true
+  },
+   customerDetails: {
     name: String,
     email: String,
     phone: String,
@@ -35,8 +40,13 @@ const orderSchema = new mongoose.Schema({
   ],
   paymentMethod: String,
   total: String,
-  status: { type: String, default: "Placed" },
   createdAt: { type: Date, default: Date.now },
+returnStatus: {
+  type: String,
+  enum: ["Pending", "Approved", "Rejected", null],
+  default: null
+},
+razorpayPaymentId: { type: String },
 });
 
 module.exports = mongoose.model("Order", orderSchema);

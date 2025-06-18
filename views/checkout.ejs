@@ -66,6 +66,23 @@
   .checkout-btn:hover {
     background-color: #218838;
   }
+  .success-btn {
+    display: inline-block;
+    width: 100%;
+    padding: 15px;
+    background-color: #28a745;
+    color: #fff;
+    font-size: 18px;
+    font-weight: 600;
+    border: none;
+    border-radius: 14px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+  }
+
+  .success-btn:hover {
+    background-color: #218838;
+  }
 
   .form-group .inline {
     display: flex;
@@ -74,6 +91,10 @@
 
   .form-group .inline input {
     flex: 1;
+  }
+  .or{
+    text-align: center;
+    font-weight: 600;
   }
 </style>
 
@@ -111,7 +132,10 @@
   </div>
 <p>Total Payable: <span id="total-amount">₹0.00</span></p>
 <input type="hidden" id="amount" name="amount" />
-    <button type="submit" class="checkout-btn">Pay with Razorpay</button>
+    <button type="submit" class="checkout-btn">Pay with razorpay</button>
+    <h2 class="or mt-3"><b>OR</b></h2>
+   <!-- <input type="hidden" id="amount" name="amount" />-->
+   <button type="button" class="success-btn mt-3" id="cod-btn">Cash On Delivery</button>
   </form>
 </div>
 
@@ -139,9 +163,10 @@ const finalPrice = discountedPrice * quantity;
 // Update amount input field and display
 document.getElementById("amount").value = total;
 document.getElementById("total-amount").innerText = total.toFixed(2);
-
-
-
+         // ₹ e.g., 740
+         const amountInRupees = <%= amount %>;
+  const amountInPaise = amountInRupees * 100;        // paise for Razorpay
+  const razorpayKey = "<%= razorpayKey %>";
   form.addEventListener('submit', async (e) => {
     e.preventDefault();
 
@@ -152,7 +177,7 @@ document.getElementById("total-amount").innerText = total.toFixed(2);
     const res = await fetch('/checkout/create-order', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ amount: data.amount })
+      body: JSON.stringify({ amount: total })
     });
 
     const result = await res.json();
@@ -199,4 +224,48 @@ document.getElementById("total-amount").innerText = total.toFixed(2);
     const razor = new Razorpay(options);
     razor.open();
   });
+document.querySelector("#cod-btn").addEventListener("click", async () => {
+  const name = document.querySelector("#fullName").value;
+  const email = document.querySelector("#email").value;
+  const phone = document.querySelector("#phone").value;
+  const address = document.querySelector("#address").value;
+  const city = document.querySelector("#city").value;
+  const postalCode = document.querySelector("#zip").value; // was wrong
+  const totalAmount = parseFloat(document.getElementById("total-amount").innerText); // was wrong
+
+  const cart = JSON.parse(localStorage.getItem("cart")) || [];
+
+  try {
+    const res = await fetch("/checkout/place-cod-order", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        name,
+        email,
+        phone,
+        address,
+        city,
+        postalCode,
+        cart,
+        totalAmount,
+        total: totalAmount.toString(), // add this to match schema
+      }),
+    });
+
+    const data = await res.json();
+    if (data.success) {
+      alert("Order placed successfully!");
+      // optionally clear cart
+      localStorage.removeItem("cart");
+      window.location.href = "/order-confirmation";
+    } else {
+      alert("Failed to place order: " + data.message);
+    }
+  } catch (err) {
+    console.error("COD error", err);
+    alert("Server error. Try again later.");
+  }
+});
 </script>

@@ -1,21 +1,124 @@
-<table>
-  <tr><th>User</th><th>Status</th><th>Total</th><th>Actions</th></tr>
+
+<% layout('/layouts/boilerplate') %>
+
+<style>
+  .orders-container {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    max-width: 900px;
+    margin: auto;
+    padding: 30px 15px;
+  }
+
+  .order-card {
+    border: 1px solid #ddd;
+    border-radius: 12px;
+    padding: 20px;
+    background: #fefefe;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+  }
+
+  .order-header {
+    display: flex;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    margin-bottom: 15px;
+  }
+
+  .order-header h4 {
+    margin: 0;
+  }
+
+  .order-status {
+    font-weight: bold;
+    padding: 5px 10px;
+    border-radius: 5px;
+    background: #e0f7fa;
+    color: #00796b;
+  }
+
+  .order-total {
+    font-size: 18px;
+    font-weight: bold;
+  }
+
+  .action-buttons {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    margin-top: 10px;
+  }
+
+  .action-buttons a,
+  .action-buttons button {
+    padding: 6px 14px;
+    font-size: 14px;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    text-decoration: none;
+  }
+
+  .btn-view {
+    background: #007bff;
+    color: white;
+  }
+
+  .btn-update {
+    background: #28a745;
+    color: white;
+  }
+
+  .return-form textarea {
+    width: 100%;
+    margin-top: 10px;
+    padding: 10px;
+    border-radius: 6px;
+    border: 1px solid #ccc;
+  }
+
+  .btn-return {
+    background: #ffc107;
+    color: #000;
+    margin-top: 10px;
+  }
+</style>
+
+<div class="orders-container">
+  <h2 class="text-center">Manage Orders</h2>
+
   <% orders.forEach(order => { %>
-    <tr>
-      <td><%= order.user.name %></td>
-      <td><%= order.status %></td>
-      <td>$<%= order.total %></td>
-      <td>
-        <a href="/admin/orders/<%= order._id %>">View</a>
+    <div class="order-card">
+      <div class="order-header">
+        <h4>User: <%= order.user?.name || "Unknown" %></h4>
+        <div class="order-status"><%= order.status %></div>
+      </div>
+
+      <div class="order-total">Total: ₹<%= order.total.toFixed(2) %></div>
+
+      <div class="action-buttons">
+        <a class="btn-view" href="/admin/orders/<%= order._id %>">View</a>
+
         <form method="POST" action="/admin/orders/<%= order._id %>/status">
           <select name="status">
-            <option>Pending</option>
-            <option>Shipped</option>
-            <option>Delivered</option>
+            <option value="Pending" <%= order.status === 'Pending' ? 'selected' : '' %>>Pending</option>
+            <option value="Shipped" <%= order.status === 'Shipped' ? 'selected' : '' %>>Shipped</option>
+            <option value="Delivered" <%= order.status === 'Delivered' ? 'selected' : '' %>>Delivered</option>
           </select>
-          <button>Update</button>
+          <button class="btn-update">Update</button>
         </form>
-      </td>
-    </tr>
+      </div>
+
+      <% if (order.status === 'Delivered' && !order.returnRequested) { %>
+        <form class="return-form" action="/returns/request" method="POST">
+          <input type="hidden" name="orderId" value="<%= order._id %>">
+          <textarea name="reason" required placeholder="Reason for return"></textarea>
+          <button type="submit" class="btn-return">Request Return</button>
+        </form>
+      <% } else if (order.returnStatus) { %>
+        <p style="margin-top: 10px; color: #555;">Return Status: <strong><%= order.returnStatus %></strong></p>
+      <% } %>
+    </div>
   <% }) %>
-</table>
+</div>

@@ -107,6 +107,26 @@
     font-size: 18px;
     color: #555;
   }
+  .pagination-link {
+  display: inline-block;
+  margin: 0 6px;
+  padding: 8px 14px;
+  border-radius: 6px;
+  background-color: #f0f0f0;
+  color: #333;
+  font-weight: bold;
+  text-decoration: none;
+  transition: background-color 0.2s ease;
+}
+
+.pagination-link:hover {
+  background-color: #ddd;
+}
+
+.pagination-link.active {
+  background-color: #007bff;
+  color: white;
+}
 </style>
 
 <!-- 🔍 Filters -->
@@ -170,6 +190,7 @@
     </div>
   <% }) %>
 </div>
+
 
 <!-- JS -->
 <script>
