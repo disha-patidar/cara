@@ -1,14 +1,16 @@
-const mongoose=require("mongoose");
-const Product = require('../models/product');
-const { data: sampleProducts } = require('./data');
-const MONGO_URL="mongodb://127.0.0.1:27017/cara";
-main().then(() =>{
-console.log("connected to database");
-}).catch((err) =>{
-console.log(err);
-});
-async function main(){
-  await mongoose.connect(MONGO_URL);
+const mongoose = require("mongoose");
+const Product = require("../models/product");
+const { data: sampleProducts } = require("./data");
+const dbUrl = process.env.ATLAS_DBURL;
+main()
+  .then(() => {
+    console.log("connected to database");
+  })
+  .catch((err) => {
+    console.log(err);
+  });
+async function main() {
+  await mongoose.connect(dbUrl);
 }
 const initDB = async () => {
   try {

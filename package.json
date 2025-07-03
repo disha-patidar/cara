@@ -1,4 +1,9 @@
 {
+  
+    "engines":{
+"node":"v22.16.0"
+    },
+  
   "name": "cara",
   "version": "1.0.0",
   "main": "index.js",
@@ -12,6 +17,7 @@
   "dependencies": {
     "cloudinary": "^1.41.3",
     "connect-flash": "^0.1.1",
+    "connect-mongo": "^5.1.0",
     "dotenv": "^16.5.0",
     "ejs": "^3.1.10",
     "ejs-mate": "^4.0.0",
@@ -20,7 +26,7 @@
     "flash": "^1.1.0",
     "joi": "^17.13.3",
     "method-override": "^3.0.0",
-    "mongoose": "^8.15.1",
+    "mongoose": "^8.16.0",
     "multer": "^2.0.1",
     "multer-storage-cloudinary": "^4.0.0",
     "nodemailer": "^7.0.3",
