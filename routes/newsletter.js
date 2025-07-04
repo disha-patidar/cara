@@ -1,7 +1,6 @@
-
 const express = require("express");
 const router = express.Router();
-const Subscriber = require("../models/Subscriber"); // Mongoose model
+const Subscriber = require("../models/subscriber"); // Mongoose model
 
 router.post("/subscribe", async (req, res) => {
   const { email } = req.body;
