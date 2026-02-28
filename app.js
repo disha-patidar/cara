@@ -184,7 +184,10 @@ app.get("/product/:id", async (req, res) => {
     res.status(500).send("Something went wrong");
   }
 });
-
+app.use((err, req, res, next) => {
+  console.error("RENDER ERROR:", err);
+  res.status(err.statusCode || 500).send(err.message || "Server Error");
+});
 app.listen(5000, () => {
   console.log("App is listening to the port 5000");
 });

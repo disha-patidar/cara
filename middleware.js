@@ -1,18 +1,17 @@
-
-const ExpressError=require("./utils/ExpressError.js");
+const ExpressError = require("./utils/ExpressError.js");
 const Review = require("./models/review.js");
 const { reviewSchema } = require("./schema.js");
 
-module.exports.isLoggedIn=(req,res,next)=>{
+module.exports.isLoggedIn = (req, res, next) => {
   // console.log(req.path,"..",req.originalUrl);
-   if(!req.isAuthenticated()){
-      req.session.redirectUrl=req.originalUrl;
-      req.flash("error","You must be logged in to make order");
-     return res.redirect("/login");
-    }
-    next();
+  if (!req.isAuthenticated()) {
+    req.session.redirectUrl = req.originalUrl;
+    req.flash("error", "You must be logged in to make order");
+    return res.redirect("/login");
+  }
+  next();
 };
-module.exports.isAdmin=(req, res, next)=> {
+module.exports.isAdmin = (req, res, next) => {
   if (req.isAuthenticated() && req.user.isAdmin) return next();
   res.send("Access Denied");
 };
@@ -26,20 +25,18 @@ module.exports.isReviewAuthor = async (req, res, next) => {
   next();
 };
 
-
-module.exports.saveRedirectUrl=(req,res,next)=>{
-   if(req.session.redirectUrl){
-      res.locals.redirectUrl=req.session.redirectUrl;
-   }
-   next();
-};
-module.exports.validateReview=(req,res,next) =>{
-  let {error}=reviewSchema.validate(req.body);
-  if(error){
-    let errMsg=error.details.map((el) => el.message).join(",");
-    throw new ExpressError(400,errMsg);
+module.exports.saveRedirectUrl = (req, res, next) => {
+  if (req.session.redirectUrl) {
+    res.locals.redirectUrl = req.session.redirectUrl;
   }
-  else{
+  next();
+};
+module.exports.validateReview = (req, res, next) => {
+  let { error } = reviewSchema.validate(req.body);
+  if (error) {
+    let errMsg = error.details.map((el) => el.message).join(",");
+    throw new ExpressError(400, errMsg);
+  } else {
     next();
-  }  
+  }
 };
