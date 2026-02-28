@@ -121,7 +121,7 @@ app.get("/home", (req, res) => {
   res.render("home");
 });
 app.get("/shop", (req, res) => {
-  res.render("/shop", { product });
+  res.render("shop");
 });
 app.get("/cart", (req, res) => {
   res.render("cart", { cartItems: [] }); // Actual items will be injected from localStorage in client
@@ -184,6 +184,7 @@ app.get("/product/:id", async (req, res) => {
     res.status(500).send("Something went wrong");
   }
 });
+
 app.listen(5000, () => {
   console.log("App is listening to the port 5000");
 });
